@@ -4,6 +4,7 @@ import cv2
 from matplotlib import pyplot as plt
 import PIL
 from PIL import Image
+from os import remove as osremove
 
 def removeBackground(image_name): 
 
@@ -34,17 +35,19 @@ def removeBackground(image_name):
     mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')
     img = img*mask2[:,:,np.newaxis]
 
-    #Making Background Transparent
     tmp = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     _,alpha = cv2.threshold(tmp,0,255,cv2.THRESH_BINARY)
     b, g, r = cv2.split(img)
     rgba = [b,g,r, alpha]
     dst = cv2.merge(rgba,4)
+    dst = cv2.cvtColor(dst, cv2.COLOR_BGRA2RGBA)
 
     #Saving
     save_path = 'images/' + image_name.split('/')[1]
-    cv2.imwrite(save_path, cv2.cvtColor(dst, cv2.COLOR_RGB2BGR))   
-
+    cv2.imwrite(save_path, dst)   
+    
+    osremove(image_name)
     print('Done!')
 
     return save_path
+

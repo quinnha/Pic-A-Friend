@@ -25,7 +25,7 @@ def getBox(image_path):
     COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
     # load our serialized model from disk
-    print("[INFO] loading model...")
+    print("Loading model...")
     net = cv2.dnn.readNetFromCaffe(prototxt, model)
 
     # load the input image and construct an input blob for the image
@@ -38,7 +38,7 @@ def getBox(image_path):
 
     # pass the blob through the network and obtain the detections and
     # predictions
-    print("[INFO] computing object detections...")
+    print("Computing object detections...")
     net.setInput(blob)
     detections = net.forward()
 
@@ -60,7 +60,6 @@ def getBox(image_path):
 
             # display the prediction
             label = "{}: {:.2f}%".format(CLASSES[idx], confidence * 100)
-            print("[INFO] {}".format(label))
             cv2.rectangle(image, (startX, startY), (endX, endY),
                 COLORS[idx], 2)
             y = startY - 15 if startY - 15 > 15 else startY + 15
