@@ -152,7 +152,9 @@ cython_debug/
 .history/
 
 # custom
-*.jpg
-test images
+
+# folder where saved images are stored
+images/*
+
 *.yaml
 .vscode
