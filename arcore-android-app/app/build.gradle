@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+
+repositories {
+    maven {
+        // opencv
+        url = "https://dl.bintray.com/blazei/maven"
+    }
+}
+
 android {
     compileSdkVersion 30
     defaultConfig {
@@ -34,4 +42,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
+
+
+    implementation 'org.opencv:opencv-android:3.4.1'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.0")
 }
