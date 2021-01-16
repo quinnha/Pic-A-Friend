@@ -18,6 +18,8 @@ jobs:
           java-version: "11"
       - name: Gradle Build
         run: |
+          cd android
           chmod +x ./gradlew
           ./gradlew assembleDebug
           ./gradlew test
+          cd ..
