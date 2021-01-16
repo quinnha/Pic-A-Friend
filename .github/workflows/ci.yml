@@ -18,7 +18,7 @@ jobs:
           java-version: "11"
       - name: Gradle Build
         run: |
-          cd android
+          cd arcore-android-app
           chmod +x ./gradlew
           ./gradlew assembleDebug
           ./gradlew test
