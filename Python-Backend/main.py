@@ -81,8 +81,12 @@ def checkPassword(hashedpw, unhashedpw):
 def loadImagesAndKeys():
     '''returns the dict of images and keys that is stored in the varible images'''
 
-    with open(imagesStorage, "r") as f:
-        imgs = yaml.safe_load(f)
+    try:
+        with open(imagesStorage, "r") as f:
+            imgs = yaml.safe_load(f)
+    except FileNotFoundError:  # probably our first go, the file doesn't exist yet, lets create it
+        with open(imagesStorage, 'a') as f:
+            pass
 
     return dict() if imgs is None else imgs
 
@@ -96,6 +100,7 @@ if __name__ == "__main__":
     # merge the existsing (constant) dict with whatever is written to disk
     images.update(loadImagesAndKeys())
 
+    # create the image directories if they dont already exist
     for i in [unprocessedImgs, processedImgs]:
         if not os.path.exists(i[:-1]):
             os.makedirs(i[:-1])
