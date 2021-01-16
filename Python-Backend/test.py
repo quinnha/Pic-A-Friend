@@ -1,36 +1,40 @@
 import requests
-rootDomain = "https://pickafriend.gulk.dev"
+from time import sleep  # required to give time to process image
 
-def test1(img='test images/im0.jpg'):
+rootDomain = "http://localhost:8080"  # "https://api.pickafriend.tech"
+
+def test1(img='test images/im0.png'):
     # just uploads an image with no password
-    r = requests.post(f"{rootDomain}/upload/", files={'image.jpg': open(img, 'rb')})
+    r = requests.post(f"{rootDomain}/upload/", files={'image.png': open(img, 'rb')})
     return r.text
 
 def test2():
     # runs test 1, then pulls image back
-    code = test1("test images/im1.jpg")
+    code = test1("test images/im1.png")
+    sleep(10)
 
     r = requests.get(f'{rootDomain}/images/{code}')
     if r.status_code == 200:
-        with open('test2.jpg', 'wb') as f:
+        with open('test2.png', 'wb') as f:
             f.write(r.content)
         return 200
 
     else:
         return r.status_code
 
-def test3(img='test images/im2.jpg'):
+def test3(img='test images/im2.png'):
     # like test 1, but with a password
-    r = requests.post(f"{rootDomain}/upload/", files={'image.jpg': open(img, 'rb')}, headers={"psswd":"test3"})
+    r = requests.post(f"{rootDomain}/upload/", files={'image.png': open(img, 'rb')}, headers={"psswd":"test3"})
     return r.text
 
 def test4():
     # test 2 with a password
-    code = test3("test images/im3.jpg")
+    code = test3("test images/im3.png")
+    sleep(10)
 
     r = requests.get(f'{rootDomain}/images/{code}', headers={"psswd":"test3"})
     if r.status_code == 200:
-        with open('test4.jpg', 'wb') as f:
+        with open('test4.png', 'wb') as f:
             f.write(r.content)
         return 200
 
@@ -39,11 +43,12 @@ def test4():
 
 def test5():
     # test 4 using the wrong password
-    code = test3("test images/im4.jpg")
+    code = test3("test images/im4.png")
+    sleep(10)
 
     r = requests.get(f'{rootDomain}/images/{code}', headers={"psswd":"incorrect password"})
     if r.status_code == 200:
-        with open('test5.jpg', 'wb') as f:
+        with open('test5.png', 'wb') as f:
             f.write(r.content)
         return 200
 

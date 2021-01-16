@@ -2,12 +2,16 @@ from flask import Flask, request, send_file
 from random import choices as rndchoices
 import bcrypt
 import yaml
+from backgroundbegone import removeBackground
+from threading import Thread
 
 app = Flask(__name__)
 
 images = {"a1": None}  # imagename, password
 
 imagesStorage = "images.yaml"
+unprocessedImgs = "non-processed/"
+processedImgs = "images/"
 
 @app.route('/')
 def home():
@@ -18,7 +22,7 @@ def home():
 def upload():
     if request.method != 'POST': return  # we only want POST
 
-    f = request.files['image.jpg']
+    f = request.files['image.png']
 
     try:
         psswd = request.headers['psswd']
@@ -32,7 +36,9 @@ def upload():
         if name not in images.keys():
             break
     
-    f.save(f"images/{name}.jpg")
+    saveAs = f"{unprocessedImgs}{name}.png"
+    f.save(saveAs)
+    Thread(target=lambda: removeBackground(saveAs)).start()
 
     images[name] = None if psswd is None else genPassword(psswd)
     saveImagesAndKeys(images)
@@ -55,7 +61,10 @@ def get_image(name):
     if password is not None and not checkPassword(password, requestPassword):
         return "Incorrect password", 401
 
-    return send_file(f"images/{name}.jpg")
+    try:
+        return send_file(f"{processedImgs}{name}.png")
+    except FileNotFoundError:  # image isnt done processing
+        return "Image not ready, check back in a bit", 409
 
 
 def genPassword(password):
@@ -85,4 +94,4 @@ if __name__ == "__main__":
     # merge the existsing (constant) dict with whatever is written to disk
     images.update(loadImagesAndKeys())
 
-    app.run()
+    app.run(host="0.0.0.0", port="8080")

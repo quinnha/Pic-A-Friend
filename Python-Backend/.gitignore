@@ -158,3 +158,8 @@ images/*
 
 *.yaml
 .vscode
+
+non-processed
+
+test2.png
+test4.png
