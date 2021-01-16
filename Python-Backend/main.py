@@ -5,6 +5,7 @@ import yaml
 from backgroundbegone import removeBackground
 from threading import Thread
 import os
+import sys
 
 app = Flask(__name__)
 
@@ -99,4 +100,5 @@ if __name__ == "__main__":
         if not os.path.exists(i[:-1]):
             os.makedirs(i[:-1])
 
-    app.run(host="0.0.0.0", port="8080")
+    port = sys.argv[1]
+    app.run(host="0.0.0.0", port=port)
