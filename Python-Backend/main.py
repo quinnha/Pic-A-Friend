@@ -4,6 +4,7 @@ import bcrypt
 import yaml
 from backgroundbegone import removeBackground
 from threading import Thread
+import os
 
 app = Flask(__name__)
 
@@ -93,5 +94,9 @@ def saveImagesAndKeys(imgs):
 if __name__ == "__main__":
     # merge the existsing (constant) dict with whatever is written to disk
     images.update(loadImagesAndKeys())
+
+    for i in [unprocessedImgs, processedImgs]:
+        if not os.path.exists(i[:-1]):
+            os.makedirs(i[:-1])
 
     app.run(host="0.0.0.0", port="8080")

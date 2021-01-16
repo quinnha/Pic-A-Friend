@@ -1,7 +1,7 @@
 import requests
 from time import sleep  # required to give time to process image
 
-rootDomain = "http://localhost:8080"  # "https://api.pickafriend.tech"
+rootDomain = "https://api.picafriend.tech"  # "http://localhost:8080"
 
 def test1(img='test images/im0.png'):
     # just uploads an image with no password
@@ -64,7 +64,7 @@ def test6():
 if __name__ == "__main__":
     print("test 1")
     print(test1())
-    print()
+    '''print()
     print('test 2')
     print(test2())
     print()
@@ -78,4 +78,4 @@ if __name__ == "__main__":
     print(test5())
     print()
     print('test 6')
-    print(test6())
+    print(test6())'''
