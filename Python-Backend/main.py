@@ -86,7 +86,7 @@ def loadImagesAndKeys():
             imgs = yaml.safe_load(f)
     except FileNotFoundError:  # probably our first go, the file doesn't exist yet, lets create it
         with open(imagesStorage, 'a') as f:
-            pass
+            imgs = None
 
     return dict() if imgs is None else imgs
 
