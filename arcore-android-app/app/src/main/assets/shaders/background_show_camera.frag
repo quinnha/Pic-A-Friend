@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#extension GL_OES_EGL_image_external_essl3 : require
+precision mediump float;
 
-uniform mat4 u_ModelViewProjection;
-uniform float u_PointSize;
+uniform samplerExternalOES u_CameraColorTexture;
 
-layout(location = 0) in vec4 a_Position;
+in vec2 v_CameraTexCoord;
 
-void main() {
-  gl_Position = u_ModelViewProjection * a_Position;
-  gl_PointSize = u_PointSize;
-}
+layout(location = 0) out vec4 o_FragColor;
+
+void main() { o_FragColor = texture(u_CameraColorTexture, v_CameraTexCoord); }

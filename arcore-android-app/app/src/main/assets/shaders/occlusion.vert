@@ -1,6 +1,6 @@
 #version 300 es
 /*
- * Copyright 2017 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,19 @@
  * limitations under the License.
  */
 
-uniform mat4 u_ModelViewProjection;
-uniform float u_PointSize;
-
 layout(location = 0) in vec4 a_Position;
+layout(location = 1) in vec2 a_CameraTexCoord;
+layout(location = 2) in vec2 a_VirtualSceneTexCoord;
+
+#if USE_OCCLUSION
+out vec2 v_CameraTexCoord;
+#endif
+out vec2 v_VirtualSceneTexCoord;
 
 void main() {
-  gl_Position = u_ModelViewProjection * a_Position;
-  gl_PointSize = u_PointSize;
+  gl_Position = a_Position;
+#if USE_OCCLUSION
+  v_CameraTexCoord = a_CameraTexCoord;
+#endif
+  v_VirtualSceneTexCoord = a_VirtualSceneTexCoord;
 }
