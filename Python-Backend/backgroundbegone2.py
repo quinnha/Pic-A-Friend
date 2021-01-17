@@ -7,6 +7,7 @@ import cv2
 from os import remove as osremove
  
 # written by quinn
+# TODO: This thing sucks memory like a leech. Maybe Make it not do that?
 
 # Apply the transformations needed
 import torchvision.transforms as T

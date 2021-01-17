@@ -100,6 +100,7 @@ def saveImagesAndKeys(imgs):
         yaml.safe_dump(imgs, f)
 
 def main():
+    #TODO: task queue (so memory doesnt get out of hand)
     # merge the existsing (constant) dict with whatever is written to disk
     images.update(loadImagesAndKeys())
 

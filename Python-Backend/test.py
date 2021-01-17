@@ -1,7 +1,7 @@
 import requests
 from time import sleep  # required to give time to process image
 
-rootDomain = "http://localhost:8080" # "https://api.picafriend.tech"  # "http://localhost:8080"
+rootDomain = "https://api.picafriend.tech" # "https://api.picafriend.tech"  # "http://localhost:8080"
 sleepTime = 25  # process needs to sleep to give the server time to process the image
 
 def test1(img='test images/im0.png'):
@@ -64,17 +64,22 @@ if __name__ == "__main__":
     print("test 1")
     print(test1())
     print()
+    sleep(sleepTime)
     print('test 2')
     print(test2())
     print()
+    sleep(sleepTime)
     print("test3")
     print(test3())
     print()
+    sleep(sleepTime)
     print("test4")
     print(test4())
     print()
+    sleep(sleepTime)
     print("test 5")
     print(test5())
     print()
+    sleep(sleepTime)
     print('test 6')
     print(test6())
