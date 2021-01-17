@@ -42,7 +42,6 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:contentDescription="a thing"
-        android:layout_marginTop="200dp"
-        android:src="@mipmap/willie" />
+        android:layout_marginTop="200dp" />
 
 </RelativeLayout>

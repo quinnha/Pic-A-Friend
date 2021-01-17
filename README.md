@@ -9,6 +9,16 @@ As social gatherings are no longer allowed for the near future, our group missed
 - Multiple images can be then taken, with the ability to move the missing person around.
 - Up to 5 people can be inserted at a time!
 
+## Screenshots
+
+![start](img/start_screen.png)
+![start](img/splash_1.png)
+![start](img/splash_2.png)
+![start](img/splash_3.png)
+![start](img/main.png)
+![start](img/code.png)
+![start](img/enter_code.png)
+
 ## How we built it
 - Deep Learning in Python with Pytorch, and TorchVision was used to first segment the image around the subject (the person), then used again alongside OpenCV to extract the foreground of the person.
 - AR in Unity, using Vuforia to develop the dynamic marker database to allow easy implementation of custom markers
