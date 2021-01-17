@@ -20,9 +20,9 @@ python-dateutil==2.8.1
 PyYAML==5.3.1
 requests==2.25.1
 six==1.15.0
-torch==1.7.1+cu110
+torch==1.7.1+cpu
 torchaudio==0.7.2
-torchvision==0.8.2+cu110
+torchvision==0.8.2+cpu
 typing-extensions==3.7.4.3
 urllib3==1.26.2
 Werkzeug==1.0.1

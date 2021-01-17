@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import torch
 import numpy as np
 import cv2
+from os import remove as osremove
  
+# written by quinn
+
 # Apply the transformations needed
 import torchvision.transforms as T
  
@@ -72,10 +75,11 @@ def decode_segmap(image, source, nc=21):
     return outImage / 255
  
 #Image segmentation 
-def segment(net, path, show_orig=True, dev='cuda'):
+def segment(net, image_name, show_orig=True, dev='cpu', graphicsOutput=False):
+    print("Starting background removal....")
     
     #Opening Image
-    img = Image.open(path)
+    img = Image.open(image_name)
     if show_orig:
         plt.imshow(img)
         plt.axis('off')
@@ -90,12 +94,13 @@ def segment(net, path, show_orig=True, dev='cuda'):
     inp = trf(img).unsqueeze(0).to(dev)
     out = net.to(dev)(inp)['out']
     om = torch.argmax(out.squeeze(), dim=0).detach().cpu().numpy()
-    rgb = decode_segmap(om, path)
+    rgb = decode_segmap(om, image_name)
     
-    #Showing result (with background)
-    plt.imshow(rgb)
-    plt.axis('off')
-    plt.show()
+    if graphicsOutput:
+        #Showing result (with background)
+        plt.imshow(rgb)
+        plt.axis('off')
+        plt.show()
 
     #Un-normalizing RGB to remove the transparent background
     final = rgb * 255
@@ -124,19 +129,33 @@ def segment(net, path, show_orig=True, dev='cuda'):
     erode = cv2.erode(final, kernel, iterations=1)
 
     final = erode
-    #Preview Image
-    cv2.imshow("image", final)
-    #cv2_imshow(final) #google colab
-    cv2.waitKey(0)
+
+    if graphicsOutput:
+        #Preview Image
+        cv2.imshow("image", final)
+        #cv2_imshow(final) #google colab
+        cv2.waitKey(0)
 
     #Write to file
-    cv2.imwrite('result.png', final)
+    save_path = 'images/' + image_name.split('/')[1]
+    cv2.imwrite(save_path, final)
 
     #Download (only for google colab)
     #files.download('result.png')
+
+    osremove(image_name)
+
+    print("Done!")
+
+    return save_path
  
 dlab = models.segmentation.deeplabv3_resnet101(pretrained=1).eval()
 
-image_path = 'test images/willie2.png'
 
-segment(dlab, image_path, show_orig=False)
+def removeBackground(image_name):
+    return segment(dlab, image_name, show_orig=False)
+
+if __name__ =="__main__":
+    image_path = "D:\\Desktop\\Everything\\Programming\\Hack the northeast 2021\\Pic-A-Friend\\Python-Backend\\test images\\willie.png"
+
+    segment(dlab, image_path, show_orig=False, graphicsOutput=True)

@@ -2,10 +2,13 @@ from flask import Flask, request, send_file
 from random import choices as rndchoices
 import bcrypt
 import yaml
-from backgroundbegone import removeBackground
 from threading import Thread
 import os
 import sys
+
+# original file does NOT use pytorch, updated one DOES
+# from backgroundbegone import removeBackground
+from backgroundbegone2 import removeBackground
 
 app = Flask(__name__)
 
