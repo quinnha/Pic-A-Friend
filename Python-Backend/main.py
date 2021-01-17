@@ -99,7 +99,7 @@ def saveImagesAndKeys(imgs):
     with open(imagesStorage, "w+") as f:
         yaml.safe_dump(imgs, f)
 
-if __name__ == "__main__":
+def main():
     # merge the existsing (constant) dict with whatever is written to disk
     images.update(loadImagesAndKeys())
 
@@ -110,3 +110,6 @@ if __name__ == "__main__":
 
     port = sys.argv[1]
     app.run(host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+    main()
