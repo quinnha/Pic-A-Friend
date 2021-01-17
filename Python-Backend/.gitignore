@@ -155,6 +155,7 @@ cython_debug/
 
 # folder where saved images are stored
 images/*
+non-processed/*
 
 *.yaml
 .vscode
