@@ -23,12 +23,16 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -175,11 +179,39 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
     private final float[] worldLightDirection = {0.0f, 0.0f, 0.0f, 0.0f};
     private final float[] viewLightDirection = new float[4]; // view x world light direction
 
+    private ImageView friendImg;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private double dpiFactor;
+
+    private Runnable animator = this::animatorUpdate;
+    private int animX = 0;
+
+    private void animatorUpdate() {
+        if (friendImg != null) {
+            animX += 15;
+            if (animX > 500 * dpiFactor) animX = 0;
+//            RelativeLayout.LayoutParams lp = new RelativeLayout
+//                    .LayoutParams((int) (300 * dpiFactor), (int) (300 * dpiFactor));
+//            lp.topMargin = (int) (200 * dpiFactor);
+//            lp.setMarginStart(animX);
+//            friendImg.setLayoutParams(lp);
+            friendImg.setTranslationX((float) (animX - 200 * dpiFactor));
+        }
+        mHandler.postDelayed(animator, 10);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         surfaceView = findViewById(R.id.surfaceview);
+        friendImg = findViewById(R.id.friend_img);
+
+        dpiFactor = getResources().getDisplayMetrics().densityDpi / 160.0;
+
+        animatorUpdate();
+
         displayRotationHelper = new DisplayRotationHelper(/*context=*/ this);
 
         // Set up touch listener.
@@ -585,6 +617,8 @@ public class HelloArActivity extends AppCompatActivity implements SampleRender.R
             // Calculate model/view/projection matrices
             Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
             Matrix.multiplyMM(modelViewProjectionMatrix, 0, projectionMatrix, 0, modelViewMatrix, 0);
+
+//            System.out.println("Pjm: " + Arrays.toString(modelViewProjectionMatrix));
 
             // Update shader properties and draw
             virtualObjectShader.setMat4("u_ModelView", modelViewMatrix);
