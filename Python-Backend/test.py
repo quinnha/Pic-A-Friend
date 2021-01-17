@@ -1,7 +1,8 @@
 import requests
 from time import sleep  # required to give time to process image
 
-rootDomain = "https://api.picafriend.tech"  # "http://localhost:8080"
+rootDomain = "http://localhost:8080" # "https://api.picafriend.tech"  # "http://localhost:8080"
+sleepTime = 25  # process needs to sleep to give the server time to process the image
 
 def test1(img='test images/im0.png'):
     # just uploads an image with no password
@@ -11,16 +12,14 @@ def test1(img='test images/im0.png'):
 def test2():
     # runs test 1, then pulls image back
     code = test1("test images/im1.png")
-    sleep(10)
+    sleep(sleepTime)
 
     r = requests.get(f'{rootDomain}/images/{code}')
     if r.status_code == 200:
         with open('test2.png', 'wb') as f:
             f.write(r.content)
-        return 200
-
-    else:
-        return r.status_code
+    
+    return r.status_code
 
 def test3(img='test images/im2.png'):
     # like test 1, but with a password
@@ -30,7 +29,7 @@ def test3(img='test images/im2.png'):
 def test4():
     # test 2 with a password
     code = test3("test images/im3.png")
-    sleep(10)
+    sleep(sleepTime)
 
     r = requests.get(f'{rootDomain}/images/{code}', headers={"psswd":"test3"})
     if r.status_code == 200:
@@ -44,7 +43,7 @@ def test4():
 def test5():
     # test 4 using the wrong password
     code = test3("test images/im4.png")
-    sleep(10)
+    sleep(sleepTime)
 
     r = requests.get(f'{rootDomain}/images/{code}', headers={"psswd":"incorrect password"})
     if r.status_code == 200:
@@ -64,7 +63,7 @@ def test6():
 if __name__ == "__main__":
     print("test 1")
     print(test1())
-    '''print()
+    print()
     print('test 2')
     print(test2())
     print()
@@ -78,4 +77,4 @@ if __name__ == "__main__":
     print(test5())
     print()
     print('test 6')
-    print(test6())'''
+    print(test6())
